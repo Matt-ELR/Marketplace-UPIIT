@@ -1,0 +1,227 @@
+﻿==================================================
+Entidades
+==================================================
+
+
+[Usuario]
+Id_usuario              [Pk]
+Nombre
+Correo
+Contraseña
+Fecha_registro
+Estado
+
+
+
+
+[Producto]
+Id_producto             [Pk]
+Id_vendedor             [Fk -> Usuario.Id_usuario]
+Nombre
+Descripcion
+Ingredientes
+Alergenos
+Imagen
+Notas
+Estado
+
+
+
+
+[Publicacion]
+Id_publicacion          [Pk]
+Id_producto             [Fk -> Producto.Id_producto]
+Precio
+Cantidad_total
+Fecha_publicacion
+Fecha_inicio
+Fecha_fin
+Estado
+
+
+
+
+[Reserva]
+Id_reserva              [Pk]
+Id_publicacion          [Fk -> Publicacion.Id_publicacion]
+Id_comprador            [Fk -> Usuario.Id_usuario]
+Id_ubicacion            [Fk -> Ubicacion.Id_ubicacion]
+Cantidad
+Fecha_reserva
+Estado
+
+
+
+
+[Ubicacion]
+Id_ubicacion            [Pk]
+Nombre
+Descripcion
+
+
+
+
+[Horario_disponibilidad]
+Id_horario              [Pk]
+Id_vendedor              [Fk -> Usuario.Id_usuario]
+Dia
+Hora_inicio
+Hora_fin
+
+
+
+
+
+
+==================================================
+Relaciones
+==================================================
+
+
+[Posee]
+Atributos:
+N/A
+
+
+Entidades:
+Usuario, (1:N)
+Producto, (N:1)
+
+
+Descripción:
+Un Usuario Puede Poseer Varios Productos.
+Cada Producto Pertenece A Un Solo Usuario.
+
+
+
+
+[Se_publica_como]
+Atributos:
+N/A
+
+
+Entidades:
+Producto, (1:N)
+Publicacion, (N:1)
+
+
+Descripción:
+Un Producto Puede Tener Varias Publicaciones.
+Cada Publicación Corresponde A Un Solo Producto.
+
+
+
+
+[Realiza]
+Atributos:
+N/A
+
+
+Entidades:
+Usuario, (1:N)
+Reserva, (N:1)
+
+
+Descripción:
+Un Usuario Puede Realizar Varias Reservas.
+Cada Reserva Es Realizada Por Un Solo Usuario.
+
+
+
+
+[Recibe]
+Atributos:
+N/A
+
+
+Entidades:
+Publicacion, (1:N)
+Reserva, (N:1)
+
+
+Descripción:
+Una Publicación Puede Recibir Varias Reservas.
+Cada Reserva Corresponde A Una Sola Publicación.
+
+
+
+
+[Es_utilizada_en]
+Atributos:
+N/A
+
+
+Entidades:
+Ubicacion, (1:N)
+Reserva, (N:1)
+
+
+Descripción:
+Una Ubicación Puede Ser Utilizada En Varias Reservas.
+Cada Reserva Utiliza Una Sola Ubicación.
+
+
+
+
+[Establece]
+Atributos:
+N/A
+
+
+Entidades:
+Usuario, (1:N)
+Horario_disponibilidad, (N:1)
+
+
+Descripción:
+Un Usuario Puede Establecer Varios Horarios De Disponibilidad.
+Cada Horario De Disponibilidad Pertenece A Un Solo Usuario.
+
+
+
+
+
+
+==================================================
+Cardinalidades Min-Max
+==================================================
+
+
+[Posee]
+Usuario                  (0,N)
+Producto                 (1,1)
+
+
+
+
+[Se_publica_como]
+Producto                 (0,N)
+Publicacion              (1,1)
+
+
+
+
+[Realiza]
+Usuario                  (0,N)
+Reserva                  (1,1)
+
+
+
+
+[Recibe]
+Publicacion              (0,N)
+Reserva                  (1,1)
+
+
+
+
+[Es_utilizada_en]
+Ubicacion                (0,N)
+Reserva                  (1,1)
+
+
+
+
+[Establece]
+Usuario                  (0,N)
+Horario_disponibilidad   (1,1)
