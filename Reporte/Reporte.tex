@@ -1,0 +1,941 @@
+\documentclass[12pt]{article} % Tamaño base 12pt
+
+% -----------------------
+% Paquetes de idioma y formato
+% -----------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{microtype}   % Mejora tipográfica
+\usepackage{booktabs}    % Tablas más profesionales
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{caption}     % Control de caption
+\usepackage{float}       % [H] placement
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{algorithmicx}
+
+\usepackage{natbib}
+
+% -----------------------
+% Tipografía y espaciado
+% -----------------------
+\usepackage{mathptmx}      % Fuente similar a Times
+\usepackage{setspace}
+\onehalfspacing
+\setlength{\parskip}{8pt}
+
+% -----------------------
+% Encabezados
+% -----------------------
+\usepackage{fancyhdr}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\rhead{\thepage}
+
+% -----------------------
+% Código fuente (listings)
+% -----------------------
+\usepackage{listings}
+\usepackage{xcolor}
+
+% -----------------------
+% Metadatos PDF (opcional)
+% -----------------------
+\usepackage[
+    hidelinks,
+    pdfauthor={Lelis Ramírez, M. E., Morales García, J. M., & Zamora Flores, D.},
+    pdftitle={Lelis.Morales.Zamora.BDA.PRY1}
+]{hyperref}
+
+% -----------------------
+% Documento
+% -----------------------
+\begin{document}
+
+% -----------------------
+% Portada manual (logos + metadatos)
+% -----------------------
+\begin{titlepage}
+\begin{center}
+    % Logos superiores
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{Logo_IPN.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.6\textwidth]{Logo_UPIIT.png}
+    \end{minipage}
+
+    \vspace{1.5cm}
+
+    {\bfseries\huge Proyecto de medio término parte 1 \par}
+    \vspace{0.4cm}
+    {\bfseries\LARGE Marketplace de Trueque y Venta entre Estudiantes \par}
+
+    \vspace{1.2cm}
+
+    {\large Instituto Politécnico Nacional \par}
+    {\large Unidad Profesional Interdisciplinaria de Ingeniería Campus Tlaxcala \par}
+
+    \vspace{1.8cm}
+
+    \centering
+    \large
+    \textbf{Integrante:}\\
+    Lelis Ramírez, Mattias Emile \\
+    Morales García, José Miguel \\
+    Zamora Flores, Daniel\\[8pt]
+    \textbf{Curso:}\\
+    D303 - Bases de Datos \\[8pt]
+    \textbf{Profesor:}\\
+    Rojas Hernández, Jesús \\[8pt]
+
+    \vfill
+    {\large 27 de agosto de 2026 \par}
+\end{center}
+\end{titlepage}
+
+% -----------------------
+%Indice
+% -----------------------
+\tableofcontents
+\newpage
+
+% -----------------------
+%Secciones
+% -----------------------
+\section{Desarrollo}
+
+\subsection{Descripción general del sistema}
+
+El proyecto consiste en desarrollar un Marketplace de Trueque y Venta entre Estudiantes, orientado a facilitar el intercambio de productos dentro de una comunidad estudiantil. La plataforma permitirá que los integrantes publiquen artículos que deseen vender o intercambiar y que otros usuarios puedan consultar dichas publicaciones, realizar solicitudes y dar seguimiento a las operaciones.
+
+El sistema surge como una alternativa organizada al uso de grupos generales de mensajería, donde las publicaciones pueden perder visibilidad conforme se acumulan nuevos mensajes y resulta difícil conocer si un producto continúa disponible o identificar el historial de las operaciones realizadas. El proyecto contempla como ejemplos de productos aquellos que los estudiantes suelen ofrecer al finalizar un semestre, como libros, apuntes, calculadoras y muebles.
+
+La plataforma seguirá un esquema de mercado entre particulares (\textit{consumer-to-consumer}, C2C), en el que los usuarios podrán participar tanto como oferentes como compradores. Este tipo de plataformas facilita el contacto entre personas para realizar intercambios de bienes y servicios y, de acuerdo con la OECD, la confianza constituye un factor relevante para su funcionamiento, debido a la incertidumbre que puede existir respecto del producto, del vendedor y de la propia operación \citep{oecd2017trust, oecd2019trust}.
+
+Para reducir dicha incertidumbre, las publicaciones deberán proporcionar información suficiente acerca de los productos ofrecidos. Además de los datos básicos, podrán incluirse fotografías, descripción del estado del artículo y observaciones relevantes. La disponibilidad de información sobre los productos y la utilización de mecanismos que favorezcan la confianza son elementos identificados por la OECD como componentes importantes de los marketplaces en línea \citep{oecd2017trust, oecd2022marketplaces}.
+
+El alcance del sistema comprende el registro y autenticación de los integrantes de la comunidad, la publicación y consulta de productos, la actualización de su disponibilidad, la gestión de solicitudes de compra o propuestas de trueque y el registro del resultado de las operaciones.
+
+La plataforma estará enfocada exclusivamente en las actividades relacionadas con la oferta, adquisición e intercambio de productos dentro de la comunidad estudiantil. No administrará información académica, como calificaciones, grupos de clase, historial escolar u otros procesos que no estén directamente relacionados con el marketplace.
+
+\subsection{Operaciones básicas}
+
+Las operaciones principales que deberá soportar la plataforma son las siguientes:
+
+\begin{enumerate}
+    \item \textbf{Registro e inicio de sesión.}
+    
+    Los integrantes de la comunidad deberán registrarse para utilizar la plataforma e iniciar sesión posteriormente. El sistema deberá conservar los datos necesarios para identificar a cada usuario y asociarlo con las publicaciones y operaciones que realice.
+
+    \item \textbf{Publicación de productos.}
+    
+    Un usuario podrá registrar un artículo indicando su nombre o título, descripción, categoría, condición, imágenes y modalidad de operación disponible: venta, trueque o ambas. En el caso de una venta, se registrará el precio solicitado; para un trueque, podrán indicarse las condiciones o tipos de artículos que el propietario estaría dispuesto a recibir.
+
+    \item \textbf{Modificación de publicaciones.}
+    
+    El propietario podrá modificar la información de un producto mientras éste se encuentre disponible. También podrá actualizar sus condiciones de operación y cambiar su estado cuando el artículo haya sido reservado, vendido, intercambiado o retirado.
+
+    \item \textbf{Consulta y búsqueda de productos.}
+    
+    Los usuarios podrán consultar las publicaciones disponibles y localizar productos mediante características como nombre, categoría o modalidad de operación. La información mostrada deberá permitir que el interesado conozca las características del artículo antes de realizar una solicitud.
+
+    \item \textbf{Solicitud de compra o propuesta de trueque.}
+    
+    Un usuario interesado podrá enviar una solicitud indicando que desea adquirir el artículo o realizar un intercambio. En el caso de un trueque, deberá registrarse la propuesta realizada por el interesado y su relación con el producto ofrecido.
+
+    \item \textbf{Gestión de solicitudes.}
+    
+    El propietario podrá consultar las solicitudes recibidas y aceptar, rechazar o mantener pendiente cada una de ellas. El estado de la solicitud deberá actualizarse conforme avance el proceso de negociación.
+
+    \item \textbf{Registro de la operación.}
+    
+    Una vez aceptada una solicitud, el sistema deberá conservar la información correspondiente a la operación y permitir registrar su resultado. Esto permitirá distinguir entre operaciones pendientes, concretadas y canceladas.
+
+    \item \textbf{Actualización de disponibilidad.}
+    
+    Cuando un producto sea vendido o intercambiado, el propietario podrá marcarlo como no disponible. La publicación dejará de mostrarse entre los productos que pueden solicitarse, aunque la información necesaria se conservará para mantener el historial de operaciones.
+\end{enumerate}
+
+La gestión independiente de la disponibilidad y del historial permite que una publicación deje de aparecer en el catálogo sin eliminar los datos relacionados con operaciones anteriores. De esta manera, el sistema puede mantener información histórica mientras presenta a los usuarios únicamente los productos que continúan disponibles.
+
+\subsection{Necesidades de información}
+
+Para soportar las operaciones anteriores, la base de datos deberá mantener información organizada sobre los usuarios, los productos, las publicaciones y las operaciones realizadas. Esta información se puede agrupar en los siguientes conjuntos:
+
+\begin{description}
+    \item[\textbf{Usuarios.}]
+    
+    Se deberá almacenar la información necesaria para identificar a los integrantes de la comunidad y permitir su acceso a la plataforma. También será necesario relacionar a cada usuario con las publicaciones y operaciones en las que participe.
+
+    \item[\textbf{Productos y publicaciones.}]
+    
+    Cada producto deberá estar asociado con su propietario y contar con información que permita identificarlo y describirlo. Entre los datos necesarios se encuentran el nombre o título, descripción, categoría, condición del artículo, imágenes, modalidad de operación y, cuando corresponda, precio o condiciones de trueque.
+
+    La separación entre el producto y su publicación permitirá conservar la información del artículo aunque una publicación deje de estar activa y, posteriormente, el propietario decida volver a ofrecerlo.
+
+    \item[\textbf{Disponibilidad y estado.}]
+    
+    El sistema deberá registrar el estado actual de cada publicación y de las operaciones relacionadas. Esto permitirá diferenciar productos disponibles, reservados, vendidos, intercambiados o retirados y evitará que artículos que ya no pueden solicitarse permanezcan visibles como disponibles.
+
+    \item[\textbf{Solicitudes y propuestas.}]
+    
+    Cada solicitud deberá identificar al usuario interesado, el producto al que corresponde y el tipo de operación solicitada. Para los trueques será necesario conservar la propuesta realizada y el resultado de la misma.
+
+    \item[\textbf{Operaciones realizadas.}]
+    
+    La base de datos deberá conservar un registro de las operaciones aceptadas, canceladas o concretadas. Este historial permitirá relacionar a los usuarios participantes con el producto involucrado, la modalidad de operación y el resultado obtenido.
+
+    La conservación de esta información contribuye a la trazabilidad del sistema. En los mercados entre particulares, la OECD señala que elementos como la información disponible, la identificación de los participantes y los mecanismos de reputación pueden contribuir a reducir la incertidumbre asociada con las transacciones \citep{oecd2017trust}.
+
+    \item[\textbf{Entrega o punto de encuentro.}]
+    
+    Debido a que las operaciones se realizarán entre integrantes de una comunidad estudiantil, será necesario registrar la información relacionada con el lugar acordado para la entrega o el intercambio. Este dato deberá vincularse con la solicitud u operación correspondiente.
+
+    \item[\textbf{Información para consultas y reportes.}]
+    
+    La base de datos deberá permitir generar información actualizada sobre:
+    
+    \begin{itemize}
+        \item productos actualmente disponibles;
+        \item productos publicados por cada usuario;
+        \item publicaciones activas e inactivas;
+        \item solicitudes pendientes, aceptadas y rechazadas;
+        \item operaciones de venta y trueque concretadas;
+        \item productos que dejaron de estar disponibles; y
+        \item historial de operaciones de los usuarios.
+    \end{itemize}
+\end{description}
+
+La información anterior deberá permitir que la plataforma no se limite al almacenamiento de datos, sino que facilite la consulta y el seguimiento de las operaciones. La OECD destaca que los marketplaces en línea dependen de que los usuarios puedan disponer de información suficiente para tomar decisiones en contextos donde existe incertidumbre sobre los productos y las transacciones \citep{oecd2019trust, oecd2022marketplaces}.
+
+En consecuencia, estas necesidades de información servirán como base para determinar las entidades, atributos, relaciones y restricciones que posteriormente serán representados en el modelo Entidad-Relación. De esta manera, el diseño de la base de datos conservará correspondencia entre la descripción del sistema, sus operaciones, el modelo ER y el diccionario de datos.
+
+\section{Modelo E-R}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.6 \textwidth]{../modelo-er.png}
+    \caption{Modelo Entidad-Relación}
+\end{figure}
+\newpage
+
+\section{Diccionario de datos}
+
+El diccionario de datos describe las entidades, atributos, tipos de
+datos, tamaños, claves, restricciones y descripción de los elementos
+que conforman el modelo Entidad--Relación. Las claves primarias se
+identifican como \textbf{PK} y las claves foráneas como \textbf{FK}.
+
+% ------------------------------------------------------------
+% 1. USUARIO
+% ------------------------------------------------------------
+
+\subsection{Entidad: Usuario}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.5cm}
+                  >{\raggedright\arraybackslash}p{2.0cm}
+                  >{\raggedright\arraybackslash}p{2.2cm}
+                  >{\raggedright\arraybackslash}p{1.2cm}
+                  >{\raggedright\arraybackslash}p{3.0cm}
+                  >{\raggedright\arraybackslash}p{4.0cm}}
+\toprule
+\textbf{Campo} &
+\textbf{Tipo de dato} &
+\textbf{Tamaño/Formato} &
+\textbf{Clave} &
+\textbf{Restricciones} &
+\textbf{Descripción} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Campo} &
+\textbf{Tipo de dato} &
+\textbf{Tamaño/Formato} &
+\textbf{Clave} &
+\textbf{Restricciones} &
+\textbf{Descripción} \\
+\midrule
+\endhead
+
+Id\_usuario &
+INT &
+-- &
+PK &
+NOT NULL, AUTO\_INCREMENT &
+Identificador único del usuario. \\
+
+Nombre &
+VARCHAR &
+100 caracteres &
+-- &
+NOT NULL &
+Nombre del usuario. \\
+
+Correo &
+VARCHAR &
+150 caracteres &
+-- &
+NOT NULL, UNIQUE &
+Correo electrónico del usuario. \\
+
+Contraseña &
+VARCHAR &
+255 caracteres &
+-- &
+NOT NULL &
+Contraseña almacenada para autenticación. \\
+
+Fecha\_registro &
+DATETIME &
+Fecha y hora &
+-- &
+NOT NULL &
+Fecha y hora en que se registró el usuario. \\
+
+Estado &
+VARCHAR &
+20 caracteres &
+-- &
+NOT NULL &
+Estado actual de la cuenta del usuario. \\
+
+\bottomrule
+\end{longtable}
+
+\textbf{Clave primaria:} Id\_usuario.
+
+\textbf{Relaciones:}
+\begin{itemize}
+    \item Usuario -- Posee -- Producto.
+    \item Usuario -- Realiza -- Reserva.
+    \item Usuario -- Establece -- Horario\_disponibilidad.
+\end{itemize}
+
+
+% ------------------------------------------------------------
+% 2. PRODUCTO
+% ------------------------------------------------------------
+
+\subsection{Entidad: Producto}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.5cm}
+                  >{\raggedright\arraybackslash}p{2.0cm}
+                  >{\raggedright\arraybackslash}p{2.2cm}
+                  >{\raggedright\arraybackslash}p{1.2cm}
+                  >{\raggedright\arraybackslash}p{3.0cm}
+                  >{\raggedright\arraybackslash}p{4.0cm}}
+\toprule
+\textbf{Campo} &
+\textbf{Tipo de dato} &
+\textbf{Tamaño/Formato} &
+\textbf{Clave} &
+\textbf{Restricciones} &
+\textbf{Descripción} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Campo} &
+\textbf{Tipo de dato} &
+\textbf{Tamaño/Formato} &
+\textbf{Clave} &
+\textbf{Restricciones} &
+\textbf{Descripción} \\
+\midrule
+\endhead
+
+Id\_producto &
+INT &
+-- &
+PK &
+NOT NULL, AUTO\_INCREMENT &
+Identificador único del producto. \\
+
+Id\_vendedor &
+INT &
+-- &
+FK &
+NOT NULL &
+Identificador del usuario que ofrece el producto. \\
+
+Nombre &
+VARCHAR &
+100 caracteres &
+-- &
+NOT NULL &
+Nombre del producto. \\
+
+Descripcion &
+TEXT &
+Variable &
+-- &
+NOT NULL &
+Descripción general del producto. \\
+
+Ingredientes &
+TEXT &
+Variable &
+-- &
+NULL &
+Ingredientes que contiene el producto. \\
+
+Alergenos &
+TEXT &
+Variable &
+-- &
+NULL &
+Información sobre posibles alérgenos. \\
+
+Imagen &
+VARCHAR &
+255 caracteres &
+-- &
+NULL &
+Ruta o referencia de la imagen del producto. \\
+
+Notas &
+TEXT &
+Variable &
+-- &
+NULL &
+Información adicional del producto. \\
+
+Estado &
+VARCHAR &
+20 caracteres &
+-- &
+NOT NULL &
+Estado actual del producto. \\
+
+\bottomrule
+\end{longtable}
+
+\textbf{Clave primaria:} Id\_producto.
+
+\textbf{Clave foránea:}
+Id\_vendedor $\rightarrow$ Usuario(Id\_usuario).
+
+\textbf{Relación:}
+Usuario -- Posee -- Producto.
+
+
+% ------------------------------------------------------------
+% 3. PUBLICACION
+% ------------------------------------------------------------
+
+\subsection{Entidad: Publicacion}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.5cm}
+                  >{\raggedright\arraybackslash}p{2.0cm}
+                  >{\raggedright\arraybackslash}p{2.2cm}
+                  >{\raggedright\arraybackslash}p{1.2cm}
+                  >{\raggedright\arraybackslash}p{3.0cm}
+                  >{\raggedright\arraybackslash}p{4.0cm}}
+\toprule
+\textbf{Campo} &
+\textbf{Tipo de dato} &
+\textbf{Tamaño/Formato} &
+\textbf{Clave} &
+\textbf{Restricciones} &
+\textbf{Descripción} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Campo} &
+\textbf{Tipo de dato} &
+\textbf{Tamaño/Formato} &
+\textbf{Clave} &
+\textbf{Restricciones} &
+\textbf{Descripción} \\
+\midrule
+\endhead
+
+Id\_publicacion &
+INT &
+-- &
+PK &
+NOT NULL, AUTO\_INCREMENT &
+Identificador único de la publicación. \\
+
+Id\_producto &
+INT &
+-- &
+FK &
+NOT NULL &
+Identificador del producto publicado. \\
+
+Precio &
+DECIMAL &
+10,2 &
+-- &
+NOT NULL &
+Precio del producto en la publicación. \\
+
+Cantidad\_total &
+INT &
+-- &
+-- &
+NOT NULL &
+Cantidad total disponible del producto. \\
+
+Fecha\_publicacion &
+DATETIME &
+Fecha y hora &
+-- &
+NOT NULL &
+Fecha y hora en que se realizó la publicación. \\
+
+Fecha\_inicio &
+DATETIME &
+Fecha y hora &
+-- &
+NOT NULL &
+Inicio de la vigencia de la publicación. \\
+
+Fecha\_fin &
+DATETIME &
+Fecha y hora &
+-- &
+NULL &
+Fecha y hora en que termina la vigencia de la publicación. \\
+
+Estado &
+VARCHAR &
+20 caracteres &
+-- &
+NOT NULL &
+Estado actual de la publicación. \\
+
+\bottomrule
+\end{longtable}
+
+\textbf{Clave primaria:} Id\_publicacion.
+
+\textbf{Clave foránea:}
+Id\_producto $\rightarrow$ Producto(Id\_producto).
+
+\textbf{Relación:}
+Producto -- Se\_publica\_como -- Publicacion.
+
+
+% ------------------------------------------------------------
+% 4. RESERVA
+% ------------------------------------------------------------
+
+\subsection{Entidad: Reserva}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.5cm}
+                  >{\raggedright\arraybackslash}p{2.0cm}
+                  >{\raggedright\arraybackslash}p{2.2cm}
+                  >{\raggedright\arraybackslash}p{1.2cm}
+                  >{\raggedright\arraybackslash}p{3.0cm}
+                  >{\raggedright\arraybackslash}p{4.0cm}}
+\toprule
+\textbf{Campo} &
+\textbf{Tipo de dato} &
+\textbf{Tamaño/Formato} &
+\textbf{Clave} &
+\textbf{Restricciones} &
+\textbf{Descripción} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Campo} &
+\textbf{Tipo de dato} &
+\textbf{Tamaño/Formato} &
+\textbf{Clave} &
+\textbf{Restricciones} &
+\textbf{Descripción} \\
+\midrule
+\endhead
+
+Id\_reserva &
+INT &
+-- &
+PK &
+NOT NULL, AUTO\_INCREMENT &
+Identificador único de la reserva. \\
+
+Id\_publicacion &
+INT &
+-- &
+FK &
+NOT NULL &
+Identificador de la publicación sobre la cual se realiza la reserva. \\
+
+Id\_comprador &
+INT &
+-- &
+FK &
+NOT NULL &
+Identificador del usuario que realiza la reserva. \\
+
+Id\_ubicacion &
+INT &
+-- &
+FK &
+NOT NULL &
+Identificador de la ubicación donde se realizará la entrega. \\
+
+Cantidad &
+INT &
+-- &
+-- &
+NOT NULL &
+Cantidad de productos reservados. \\
+
+Fecha\_reserva &
+DATETIME &
+Fecha y hora &
+-- &
+NOT NULL &
+Fecha y hora en que se realizó la reserva. \\
+
+Estado &
+VARCHAR &
+20 caracteres &
+-- &
+NOT NULL &
+Estado actual de la reserva. \\
+
+\bottomrule
+\end{longtable}
+
+\textbf{Clave primaria:} Id\_reserva.
+
+\textbf{Claves foráneas:}
+\begin{itemize}
+    \item Id\_publicacion $\rightarrow$ Publicacion(Id\_publicacion).
+    \item Id\_comprador $\rightarrow$ Usuario(Id\_usuario).
+    \item Id\_ubicacion $\rightarrow$ Ubicacion(Id\_ubicacion).
+\end{itemize}
+
+\textbf{Relaciones:}
+\begin{itemize}
+    \item Usuario -- Realiza -- Reserva.
+    \item Publicacion -- Recibe -- Reserva.
+    \item Ubicacion -- Es\_utilizada\_en -- Reserva.
+\end{itemize}
+
+
+% ------------------------------------------------------------
+% 5. UBICACION
+% ------------------------------------------------------------
+
+\subsection{Entidad: Ubicacion}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.5cm}
+                  >{\raggedright\arraybackslash}p{2.0cm}
+                  >{\raggedright\arraybackslash}p{2.2cm}
+                  >{\raggedright\arraybackslash}p{1.2cm}
+                  >{\raggedright\arraybackslash}p{3.0cm}
+                  >{\raggedright\arraybackslash}p{4.0cm}}
+\toprule
+\textbf{Campo} &
+\textbf{Tipo de dato} &
+\textbf{Tamaño/Formato} &
+\textbf{Clave} &
+\textbf{Restricciones} &
+\textbf{Descripción} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Campo} &
+\textbf{Tipo de dato} &
+\textbf{Tamaño/Formato} &
+\textbf{Clave} &
+\textbf{Restricciones} &
+\textbf{Descripción} \\
+\midrule
+\endhead
+
+Id\_ubicacion &
+INT &
+-- &
+PK &
+NOT NULL, AUTO\_INCREMENT &
+Identificador único de la ubicación. \\
+
+Nombre &
+VARCHAR &
+100 caracteres &
+-- &
+NOT NULL &
+Nombre de la ubicación. \\
+
+Descripcion &
+TEXT &
+Variable &
+-- &
+NULL &
+Descripción o información adicional de la ubicación. \\
+
+\bottomrule
+\end{longtable}
+
+\textbf{Clave primaria:} Id\_ubicacion.
+
+\textbf{Relación:}
+Ubicacion -- Es\_utilizada\_en -- Reserva.
+
+
+% ------------------------------------------------------------
+% 6. HORARIO_DISPONIBILIDAD
+% ------------------------------------------------------------
+
+\subsection{Entidad: Horario\_disponibilidad}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.5cm}
+                  >{\raggedright\arraybackslash}p{2.0cm}
+                  >{\raggedright\arraybackslash}p{2.2cm}
+                  >{\raggedright\arraybackslash}p{1.2cm}
+                  >{\raggedright\arraybackslash}p{3.0cm}
+                  >{\raggedright\arraybackslash}p{4.0cm}}
+\toprule
+\textbf{Campo} &
+\textbf{Tipo de dato} &
+\textbf{Tamaño/Formato} &
+\textbf{Clave} &
+\textbf{Restricciones} &
+\textbf{Descripción} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Campo} &
+\textbf{Tipo de dato} &
+\textbf{Tamaño/Formato} &
+\textbf{Clave} &
+\textbf{Restricciones} &
+\textbf{Descripción} \\
+\midrule
+\endhead
+
+Id\_horario &
+INT &
+-- &
+PK &
+NOT NULL, AUTO\_INCREMENT &
+Identificador único del horario. \\
+
+Id\_vendedor &
+INT &
+-- &
+FK &
+NOT NULL &
+Identificador del usuario vendedor al que pertenece el horario. \\
+
+Dia &
+VARCHAR &
+15 caracteres &
+-- &
+NOT NULL &
+Día de la semana correspondiente al horario. \\
+
+Hora\_inicio &
+TIME &
+Hora &
+-- &
+NOT NULL &
+Hora en que inicia la disponibilidad. \\
+
+Hora\_fin &
+TIME &
+Hora &
+-- &
+NOT NULL &
+Hora en que termina la disponibilidad. \\
+
+\bottomrule
+\end{longtable}
+
+\textbf{Clave primaria:} Id\_horario.
+
+\textbf{Clave foránea:}
+Id\_vendedor $\rightarrow$ Usuario(Id\_usuario).
+
+\textbf{Relación:}
+Usuario -- Establece -- Horario\_disponibilidad.
+
+
+% ============================================================
+% RESUMEN DE CLAVES FORÁNEAS
+% ============================================================
+
+\subsection{Resumen de claves foráneas}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.5cm}
+                  >{\raggedright\arraybackslash}p{3.5cm}
+                  >{\raggedright\arraybackslash}p{4.0cm}
+                  >{\raggedright\arraybackslash}p{3.5cm}}
+\toprule
+\textbf{Entidad} &
+\textbf{Campo FK} &
+\textbf{Entidad referenciada} &
+\textbf{Campo referenciado} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Entidad} &
+\textbf{Campo FK} &
+\textbf{Entidad referenciada} &
+\textbf{Campo referenciado} \\
+\midrule
+\endhead
+
+Producto &
+Id\_vendedor &
+Usuario &
+Id\_usuario \\
+
+Publicacion &
+Id\_producto &
+Producto &
+Id\_producto \\
+
+Reserva &
+Id\_comprador &
+Usuario &
+Id\_usuario \\
+
+Reserva &
+Id\_publicacion &
+Publicacion &
+Id\_publicacion \\
+
+Reserva &
+Id\_ubicacion &
+Ubicacion &
+Id\_ubicacion \\
+
+Horario\_disponibilidad &
+Id\_vendedor &
+Usuario &
+Id\_usuario \\
+
+\bottomrule
+\end{longtable}
+
+
+% ============================================================
+% RESUMEN DE RELACIONES
+% ============================================================
+
+\subsection{Resumen de relaciones}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.5cm}
+                  >{\raggedright\arraybackslash}p{3.5cm}
+                  >{\raggedright\arraybackslash}p{4.0cm}
+                  >{\raggedright\arraybackslash}p{4.0cm}}
+\toprule
+\textbf{Relación} &
+\textbf{Primera entidad} &
+\textbf{Segunda entidad} &
+\textbf{Cardinalidad} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Relación} &
+\textbf{Primera entidad} &
+\textbf{Segunda entidad} &
+\textbf{Cardinalidad} \\
+\midrule
+\endhead
+
+Posee &
+Usuario &
+Producto &
+Usuario (0,N) -- Producto (1,1) \\
+
+Se\_publica\_como &
+Producto &
+Publicacion &
+Producto (0,N) -- Publicacion (1,1) \\
+
+Realiza &
+Usuario &
+Reserva &
+Usuario (0,N) -- Reserva (1,1) \\
+
+Recibe &
+Publicacion &
+Reserva &
+Publicacion (0,N) -- Reserva (1,1) \\
+
+Es\_utilizada\_en &
+Ubicacion &
+Reserva &
+Ubicacion (0,N) -- Reserva (1,1) \\
+
+Establece &
+Usuario &
+Horario\_disponibilidad &
+Usuario (0,N) -- Horario\_disponibilidad (1,1) \\
+
+\bottomrule
+\end{longtable}
+
+
+% ============================================================
+% CONSIDERACIONES SOBRE NULL
+% ============================================================
+
+\subsection{Consideraciones sobre las restricciones}
+
+Los campos que funcionan como claves primarias son obligatoriamente
+\texttt{NOT NULL}. Asimismo, las claves foráneas que representan
+relaciones obligatorias se establecen como \texttt{NOT NULL}.
+
+Los siguientes campos corresponden a claves foráneas obligatorias:
+
+\begin{itemize}
+    \item Producto.Id\_vendedor.
+    \item Publicacion.Id\_producto.
+    \item Reserva.Id\_publicacion.
+    \item Reserva.Id\_comprador.
+    \item Reserva.Id\_ubicacion.
+    \item Horario\_disponibilidad.Id\_vendedor.
+\end{itemize}
+
+Los atributos que representan información opcional se mantienen como
+\texttt{NULL}, entre ellos:
+
+\begin{itemize}
+    \item Producto.Ingredientes.
+    \item Producto.Alergenos.
+    \item Producto.Imagen.
+    \item Producto.Notas.
+    \item Ubicacion.Descripcion.
+    \item Publicacion.Fecha\_fin.
+\end{itemize}
+
+% -----------------------
+%Referencias
+% -----------------------
+\newpage
+\addcontentsline{toc}{section}{Referencias}
+\bibliographystyle{apalike}
+\bibliography{referencias}
+
+\end{document}
