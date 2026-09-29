@@ -71,12 +71,12 @@
     % Logos superiores
     \begin{minipage}{0.45\textwidth}
         \centering
-        \includegraphics[width=0.8\textwidth]{Logo_IPN.png}
+        \includegraphics[width=0.8\textwidth]{Portada/Logo_IPN.png}
     \end{minipage}
     \hfill
     \begin{minipage}{0.45\textwidth}
         \centering
-        \includegraphics[width=0.6\textwidth]{Logo_UPIIT.png}
+        \includegraphics[width=0.6\textwidth]{Portada/Logo_UPIIT.png}
     \end{minipage}
 
     \vspace{1.5cm}
@@ -104,7 +104,7 @@
     Rojas Hernández, Jesús \\[8pt]
 
     \vfill
-    {\large 27 de agosto de 2026 \par}
+    {\large 29 de septiembre de 2026 \par}
 \end{center}
 \end{titlepage}
 
@@ -229,7 +229,7 @@ En consecuencia, estas necesidades de información servirán como base para dete
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.6 \textwidth]{../modelo-er.png}
+    \includegraphics[width=0.6 \textwidth]{../Modelo_E-R/modelo-er.png}
     \caption{Modelo Entidad-Relación}
 \end{figure}
 \newpage
@@ -256,7 +256,7 @@ identifican como \textbf{PK} y las claves foráneas como \textbf{FK}.
 \toprule
 \textbf{Campo} &
 \textbf{Tipo de dato} &
-\textbf{Tamaño/Formato} &
+\textbf{Tamaño} &
 \textbf{Clave} &
 \textbf{Restricciones} &
 \textbf{Descripción} \\
@@ -266,7 +266,7 @@ identifican como \textbf{PK} y las claves foráneas como \textbf{FK}.
 \toprule
 \textbf{Campo} &
 \textbf{Tipo de dato} &
-\textbf{Tamaño/Formato} &
+\textbf{Tamaño} &
 \textbf{Clave} &
 \textbf{Restricciones} &
 \textbf{Descripción} \\
@@ -343,7 +343,7 @@ Estado actual de la cuenta del usuario. \\
 \toprule
 \textbf{Campo} &
 \textbf{Tipo de dato} &
-\textbf{Tamaño/Formato} &
+\textbf{Tamaño} &
 \textbf{Clave} &
 \textbf{Restricciones} &
 \textbf{Descripción} \\
@@ -353,7 +353,7 @@ Estado actual de la cuenta del usuario. \\
 \toprule
 \textbf{Campo} &
 \textbf{Tipo de dato} &
-\textbf{Tamaño/Formato} &
+\textbf{Tamaño} &
 \textbf{Clave} &
 \textbf{Restricciones} &
 \textbf{Descripción} \\
@@ -450,7 +450,7 @@ Usuario -- Posee -- Producto.
 \toprule
 \textbf{Campo} &
 \textbf{Tipo de dato} &
-\textbf{Tamaño/Formato} &
+\textbf{Tamaño} &
 \textbf{Clave} &
 \textbf{Restricciones} &
 \textbf{Descripción} \\
@@ -460,7 +460,7 @@ Usuario -- Posee -- Producto.
 \toprule
 \textbf{Campo} &
 \textbf{Tipo de dato} &
-\textbf{Tamaño/Formato} &
+\textbf{Tamaño} &
 \textbf{Clave} &
 \textbf{Restricciones} &
 \textbf{Descripción} \\
@@ -550,7 +550,7 @@ Producto -- Se\_publica\_como -- Publicacion.
 \toprule
 \textbf{Campo} &
 \textbf{Tipo de dato} &
-\textbf{Tamaño/Formato} &
+\textbf{Tamaño} &
 \textbf{Clave} &
 \textbf{Restricciones} &
 \textbf{Descripción} \\
@@ -560,7 +560,7 @@ Producto -- Se\_publica\_como -- Publicacion.
 \toprule
 \textbf{Campo} &
 \textbf{Tipo de dato} &
-\textbf{Tamaño/Formato} &
+\textbf{Tamaño} &
 \textbf{Clave} &
 \textbf{Restricciones} &
 \textbf{Descripción} \\
@@ -651,7 +651,7 @@ Estado actual de la reserva. \\
 \toprule
 \textbf{Campo} &
 \textbf{Tipo de dato} &
-\textbf{Tamaño/Formato} &
+\textbf{Tamaño} &
 \textbf{Clave} &
 \textbf{Restricciones} &
 \textbf{Descripción} \\
@@ -661,7 +661,7 @@ Estado actual de la reserva. \\
 \toprule
 \textbf{Campo} &
 \textbf{Tipo de dato} &
-\textbf{Tamaño/Formato} &
+\textbf{Tamaño} &
 \textbf{Clave} &
 \textbf{Restricciones} &
 \textbf{Descripción} \\
@@ -713,7 +713,7 @@ Ubicacion -- Es\_utilizada\_en -- Reserva.
 \toprule
 \textbf{Campo} &
 \textbf{Tipo de dato} &
-\textbf{Tamaño/Formato} &
+\textbf{Tamaño} &
 \textbf{Clave} &
 \textbf{Restricciones} &
 \textbf{Descripción} \\
@@ -723,7 +723,7 @@ Ubicacion -- Es\_utilizada\_en -- Reserva.
 \toprule
 \textbf{Campo} &
 \textbf{Tipo de dato} &
-\textbf{Tamaño/Formato} &
+\textbf{Tamaño} &
 \textbf{Clave} &
 \textbf{Restricciones} &
 \textbf{Descripción} \\
@@ -776,10 +776,6 @@ Id\_vendedor $\rightarrow$ Usuario(Id\_usuario).
 \textbf{Relación:}
 Usuario -- Establece -- Horario\_disponibilidad.
 
-
-% ============================================================
-% RESUMEN DE CLAVES FORÁNEAS
-% ============================================================
 
 \subsection{Resumen de claves foráneas}
 
@@ -837,10 +833,6 @@ Id\_usuario \\
 \end{longtable}
 
 
-% ============================================================
-% RESUMEN DE RELACIONES
-% ============================================================
-
 \subsection{Resumen de relaciones}
 
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.5cm}
@@ -895,11 +887,6 @@ Usuario (0,N) -- Horario\_disponibilidad (1,1) \\
 
 \bottomrule
 \end{longtable}
-
-
-% ============================================================
-% CONSIDERACIONES SOBRE NULL
-% ============================================================
 
 \subsection{Consideraciones sobre las restricciones}
 
