@@ -230,3 +230,176 @@ CREATE TABLE reserva (
         ON DELETE RESTRICT
         ON UPDATE CASCADE
 );
+
+
+
+-- DATOS DE PRUEBA
+
+
+USE marketplaceupiit;
+
+
+
+-- USUARIOS
+
+
+INSERT INTO usuario
+    (id_usuario, nombre, correo, contraseña, tipo_usuario, estado)
+VALUES
+    (1, 'Juan Perez', 'juan@upiit.mx', '123456', 'VENDEDOR', 'ACTIVO'),
+    (2, 'Maria Lopez', 'maria@upiit.mx', '123456', 'VENDEDOR', 'ACTIVO'),
+    (3, 'Carlos Hernandez', 'carlos@upiit.mx', '123456', 'COMPRADOR', 'ACTIVO'),
+    (4, 'Ana Garcia', 'ana@upiit.mx', '123456', 'COMPRADOR', 'ACTIVO'),
+    (5, 'Luis Martinez', 'luis@upiit.mx', '123456', 'COMPRADOR', 'ACTIVO');
+
+
+
+-- VENDEDORES
+-- Especialización de USUARIO
+
+
+INSERT INTO vendedor
+    (id_usuario)
+VALUES
+    (1),
+    (2);
+
+
+
+-- HORARIOS
+-- Relación VENDEDOR - HORARIO
+
+
+INSERT INTO horario
+    (id_horario, id_vendedor, dia, hora_inicio, hora_fin)
+VALUES
+    (1, 1, 'Lunes',    '10:00:00', '13:00:00'),
+    (2, 1, 'Miercoles','12:00:00', '15:00:00'),
+    (3, 2, 'Martes',   '11:00:00', '14:00:00'),
+    (4, 2, 'Jueves',   '13:00:00', '16:00:00');
+
+
+
+-- PRODUCTOS
+
+
+INSERT INTO producto
+    (id_producto, nombre, descripcion)
+VALUES
+    (1, 'Brownie de chocolate',
+     'Brownie de chocolate casero con nuez.'),
+
+    (2, 'Galletas de avena',
+     'Galletas de avena con chispas de chocolate.'),
+
+    (3, 'Sandwich de pollo',
+     'Sandwich de pollo con lechuga, tomate y aderezo.');
+
+
+
+-- INGREDIENTES DE LOS PRODUCTOS
+
+
+INSERT INTO producto_ingrediente
+    (id_producto, ingrediente)
+VALUES
+    (1, 'Chocolate'),
+    (1, 'Harina'),
+    (1, 'Huevo'),
+    (1, 'Mantequilla'),
+    (1, 'Nuez'),
+
+    (2, 'Avena'),
+    (2, 'Harina'),
+    (2, 'Mantequilla'),
+    (2, 'Chocolate'),
+
+    (3, 'Pan'),
+    (3, 'Pollo'),
+    (3, 'Lechuga'),
+    (3, 'Tomate'),
+    (3, 'Aderezo');
+
+
+-- ALERGENOS DE LOS PRODUCTOS
+
+INSERT INTO producto_alergeno
+    (id_producto, alergeno)
+VALUES
+    (1, 'Nuez'),
+    (1, 'Gluten'),
+    (1, 'Huevo'),
+
+    (2, 'Gluten'),
+    (2, 'Lacteos'),
+
+    (3, 'Gluten'),
+    (3, 'Huevo');
+
+
+-- IMAGENES
+
+INSERT INTO imagen
+    (id_imagen, id_producto)
+VALUES
+    (1, 1),
+    (2, 2),
+    (3, 3);
+
+
+-- ARCHIVOS DE LAS IMAGENES
+
+INSERT INTO imagen_archivo
+    (id_imagen, archivo)
+VALUES
+    (1, 'brownie_chocolate.jpg'),
+    (1, 'brownie_chocolate_2.jpg'),
+    (2, 'galletas_avena.jpg'),
+    (3, 'sandwich_pollo.jpg');
+
+
+-- UBICACIONES
+
+INSERT INTO ubicacion
+    (id_ubicacion, nombre, descripcion)
+VALUES
+    (1, 'Edificio de Ingenierias',
+     'Entrada principal del edificio.'),
+
+    (2, 'Cafeteria',
+     'Area principal de la cafeteria.'),
+
+    (3, 'Biblioteca',
+     'Entrada de la biblioteca del campus.');
+
+
+-- PUBLICACIONES
+
+INSERT INTO publicacion
+    (id_publicacion, id_vendedor, id_producto, precio,
+     cantidad_disponible, estado, fecha_publicacion)
+VALUES
+    (1, 1, 1, 25.00, 20, 'ACTIVA', '2026-10-02 09:00:00'),
+
+    (2, 1, 2, 15.00, 30, 'ACTIVA', '2026-10-02 09:30:00'),
+
+    (3, 2, 3, 40.00, 10, 'ACTIVA', '2026-10-02 10:00:00');
+
+
+-- RESERVAS
+
+INSERT INTO reserva
+    (id_reserva, id_comprador, id_publicacion, id_ubicacion,
+     fecha_reserva, cantidad, estado)
+VALUES
+    (1, 3, 1, 1,
+     '2026-10-02 10:30:00', 2, 'CONFIRMADA'),
+
+    (2, 4, 1, 2,
+     '2026-10-02 11:00:00', 3, 'PENDIENTE'),
+
+    (3, 5, 2, 3,
+     '2026-10-02 11:30:00', 5, 'COMPLETADA'),
+
+    (4, 3, 3, 1,
+     '2026-10-02 12:00:00', 1, 'PENDIENTE');
